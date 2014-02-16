@@ -1,8 +1,8 @@
 {
   "name": "hoarder",
   "version": "0.0.1",
-  "description": "Endpoint for injecting irc messages into a database for graphing",
-  "homepage": "http://github.com/brianc/hoarder",
+  "description": "Endpoint for injecting irc messages into a database for mining and graphing",
+  "homepage": "http://github.com/jasonmay/hoarder",
   "repository": {
     "type": "git",
     "url": "git://github.com/jasonmay/hoarder.git"
