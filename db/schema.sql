@@ -4,7 +4,9 @@ create table messages (
     nick text,
     message text,
     message_type text,
+    channel text,
     network text,
     profile text,
+    created timestamp,
     params json
 );
