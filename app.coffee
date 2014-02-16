@@ -69,7 +69,12 @@ client.connect (connectErr) ->
         bodyData.success = true
 
       res.json(bodyData)
+
+  app.get "/health.json", (req, res) ->
+    res.json {success: true}
+
   console.log("listening on #{process.env.HOARDER_PORT}...")
+
 
   app.listen process.env.HOARDER_PORT, ->
     # Send an "I'm up now" request to hubot
