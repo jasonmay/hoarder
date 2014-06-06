@@ -21,30 +21,30 @@ app.use(express.json())
 
 if not process.env.HOARDER_DB_USER?
   throw "HOARDER_DB_USER not defined in environment"
-  exit 1
+  process.exit(1)
 
 if not process.env.HOARDER_DB_HOST?
   throw "HOARDER_DB_HOST not defined in environment"
-  exit 1
+  process.exit(1)
 
 if not process.env.HOARDER_DB_DATABASE?
   throw "HOARDER_DB_DATABASE not defined in environment"
-  exit 1
+  process.exit(1)
 
 if not process.env.HOARDER_PORT?
   throw "HOARDER_PORT not defined in environment"
-  exit 1
+  process.exit(1)
 
 if not process.env.HOARDER_HUBOT_URL?
   throw "HOARDER_HUBOT_URL not defined in environment"
-  exit 1
+  process.exit(1)
 
 client = new pg.Client("postgres://#{process.env.HOARDER_DB_USER}@#{process.env.HOARDER_DB_HOST}/#{process.env.HOARDER_DB_DATABASE}")
 
 client.connect (connectErr) ->
   if connectErr
      console.error('Could not connect to postgres', connectErr)
-     exit 1
+     process.exit 1
 
   app.post '/message/create', (req, res) ->
     m = req.body
