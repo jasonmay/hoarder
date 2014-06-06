@@ -39,7 +39,11 @@ if not process.env.HOARDER_HUBOT_URL?
   throw "HOARDER_HUBOT_URL not defined in environment"
   process.exit(1)
 
-client = new pg.Client("postgres://#{process.env.HOARDER_DB_USER}@#{process.env.HOARDER_DB_HOST}/#{process.env.HOARDER_DB_DATABASE}")
+auth = process.env.HOARDER_DB_USER
+if process.env['HOARDER_DB_PASS']
+  auth += ':' + process.env.HOARDER_DB_PASS
+
+client = new pg.Client("postgres://#{auth}@#{process.env.HOARDER_DB_HOST}/#{process.env.HOARDER_DB_DATABASE}")
 
 client.connect (connectErr) ->
   if connectErr
