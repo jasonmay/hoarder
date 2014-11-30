@@ -51,28 +51,31 @@ client.connect (connectErr) ->
      process.exit 1
 
   app.post '/message/create', (req, res) ->
-    m = req.body
-    console.error("body info: #{inspect m}")
-    m.params or= {}
-    createQuery = """
-      insert into messages (message, message_type, nick, channel, network, profile, created, params)
-      values ($1, $2, $3, $4, $5, $6, 'epoch'::timestamp + $7 * '1 millisecond'::interval, $8)
-    """
-    console.log("query: #{createQuery}")
-    bindParams = [m.message, 'message', m.nick, m.channel, m.network, m.profile, m.time, JSON.stringify(m.params)]
-    console.error("sql params: #{inspect bindParams}")
+    try
+      m = req.body
+      console.error("body info: #{inspect m}")
+      m.params or= {}
+      createQuery = """
+        insert into messages (message, message_type, nick, channel, network, profile, created, params)
+        values ($1, $2, $3, $4, $5, $6, 'epoch'::timestamp + $7 * '1 millisecond'::interval, $8)
+      """
+      console.log("query: #{createQuery}")
+      bindParams = [m.message, 'message', m.nick, m.channel, m.network, m.profile, m.time, JSON.stringify(m.params)]
+      console.error("sql params: #{inspect bindParams}")
 
-    client.query createQuery, bindParams, (queryErr, result) ->
-      bodyData = {}
-      if queryErr
-        console.error("ERROR: #{inspect queryErr}")
-        bodyData.success = false
-        bodyData.reason = queryErr
-      else
-        console.log("Message saved!")
-        bodyData.success = true
+      client.query createQuery, bindParams, (queryErr, result) ->
+        bodyData = {}
+        if queryErr
+          console.error("ERROR: #{inspect queryErr}")
+          bodyData.success = false
+          bodyData.reason = queryErr
+        else
+          console.log("Message saved!")
+          bodyData.success = true
 
-      res.json(bodyData)
+        res.json(bodyData)
+    catch err
+      console.error(err)
 
   app.get "/health.json", (req, res) ->
     res.json {success: true}
